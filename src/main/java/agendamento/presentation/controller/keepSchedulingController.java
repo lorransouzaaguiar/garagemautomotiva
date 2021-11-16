@@ -3,25 +3,28 @@ package agendamento.presentation.controller;
 import javax.swing.JButton;
 
 import agendamento.data.SchedulingDAO;
+import agendamento.factory.SearchCustomerFactory;
 import agendamento.presentation.model.Scheduling;
 import agendamento.presentation.store.SchedulingStore;
+import agendamento.presentation.view.SearchCustomerView;
 import app.AppProvider;
 import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormBox;
 import br.com.formSwing.components.FormField;
 import br.com.formSwing.validation.FormValidation;
+import cliente.data.CustomerDAOImpl;
 import shared.Action;
 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class keepSchedulingController implements ActionListener{
+public class keepSchedulingController{
 	
 	private FormField fieldName;
 	private JButton btnCustomer;
+	private JButton btnScheduling;
 	private FormBox formBox;
-	private JButton btn;
 	private FormSwing formSwing;
 	private Action action;
 	private SchedulingDAO dao;
@@ -33,22 +36,52 @@ public class keepSchedulingController implements ActionListener{
 		this.formSwing = new FormSwing();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(isValidForm()) {
-			switch (action) {
-				case NEW:{
-					if(dao.insert(createModel()))
-						appProvider.showMessageUI("Serviço salvo com sucesso!");
-					else appProvider.showMessageUI("Falha ao salvar serviço!");
-				}break;
-				case EDIT:{
-					if(dao.update(createModel()))
-						appProvider.showMessageUI("Serviço atualizado com sucesso!");
-					else appProvider.showMessageUI("Falha ao atualizar serviço!");
-				}break;
+	public void setUIitems(
+			 FormField fieldName,
+			 JButton btnCustomer,
+			 FormBox formBox,
+			 JButton btnScheduling,
+			 Action action) 
+	{
+		this.fieldName = fieldName;
+		this.formBox = formBox;
+		this.btnScheduling = btnScheduling;
+		this.btnCustomer = btnCustomer;
+		this.action = action;
+		
+		addListener();
+		this.btnScheduling.addActionListener(shedulingListener());
+		this.btnCustomer.addActionListener(customerListener());
+	}
+	
+	
+	private ActionListener shedulingListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(isValidForm()) {
+					switch (action) {
+						case NEW:{
+							if(dao.insert(createModel()))
+								appProvider.showMessageUI("Serviço salvo com sucesso!");
+							else appProvider.showMessageUI("Falha ao salvar serviço!");
+						}break;
+						case EDIT:{
+							if(dao.update(createModel()))
+								appProvider.showMessageUI("Serviço atualizado com sucesso!");
+							else appProvider.showMessageUI("Falha ao atualizar serviço!");
+						}break;
+					}
+				}
 			}
-		}
+		};
+	}
+	
+	private ActionListener customerListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchCustomerFactory.searchCustomer();
+			}
+		};
 	}	
 	
 	private void addListener() {
@@ -91,18 +124,5 @@ public class keepSchedulingController implements ActionListener{
 		
 	}
 	
-	public void setUIitems(
-			 FormField fieldName,
-			 JButton btnCustomer,
-			 FormBox formBox,
-			 JButton btn,
-			Action action) 
-	{
-		this.fieldName = fieldName;
-		this.formBox = formBox;
-		this.btn = btn;
-		this.action = action;
-		addListener();
-		this.btn.addActionListener(this);
-	}
+	
 }

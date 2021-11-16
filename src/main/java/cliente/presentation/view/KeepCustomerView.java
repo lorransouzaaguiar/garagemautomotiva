@@ -30,11 +30,12 @@ public class KeepCustomerView extends JFrame {
 	public KeepCustomerView(keepCustomerController controller, Action action) {
 		this.action = action;
 		initComponents();
+		setLocationRelativeTo(null);
 		changeUI();
 		setVisible(true);
 
 		this.controller = controller;
-		this.controller.setUIitems(fieldName, fieldEmail, fieldNumber, fieldCPF, btn, action);
+		this.controller.setUIitems(this, fieldName, fieldEmail, fieldNumber, fieldCPF, btn, action);
 	}
 	
 	private void changeUI() {
@@ -60,7 +61,7 @@ public class KeepCustomerView extends JFrame {
 
 	private void initComponents() {
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 680, 359);
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

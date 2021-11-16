@@ -1,5 +1,7 @@
 package servico.presentation.model;
 
+import java.util.UUID;
+
 public class Service {
 	
 	private String id;
@@ -16,6 +18,7 @@ public class Service {
 
 	public Service(String description, double price) {
 		super();
+		this.id = UUID.randomUUID().toString();
 		this.description = description;
 		this.price = price;
 	}

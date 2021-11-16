@@ -25,7 +25,7 @@ public class MainView extends JFrame {
 	private JPanel contentPane;
 	private JPanel buttonPanel;
 	private JPanel mainPanel;
-	private JButton btnCustomer;
+	private JButton btnDashboard;
 	private JButton btnScheduling;
 	private JButton btnService;
 	private JButton btnProduct;
@@ -34,6 +34,7 @@ public class MainView extends JFrame {
 	private JButton btnSell;
 	private JLabel pageTitle;
 	private MainController controller;
+	private JButton btnCustomer;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,9 +53,11 @@ public class MainView extends JFrame {
 		initComponents();
 		this.controller = new MainController(mainPanel, pageTitle);
 		
+		this.btnDashboard.addActionListener(controller.dashboardListener());
 		this.btnCustomer.addActionListener(controller.customerListener());
 		this.btnScheduling.addActionListener(controller.schedulingListener());
 		this.btnService.addActionListener(controller.serviceListener());
+		
 	}
 	
 	private void initComponents() {
@@ -70,7 +73,7 @@ public class MainView extends JFrame {
 		this.sidePanel = new JPanel();
 		this.sidePanel.setBackground(Color.BLACK);
 		
-		this.pageTitle = new JLabel("Page Title");
+		this.pageTitle = new JLabel("Dashboard");
 		this.pageTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		this.pageTitle.setForeground(Color.WHITE);
 		this.pageTitle.setFont(new Font("Segoe UI", Font.PLAIN, 25));
@@ -101,14 +104,25 @@ public class MainView extends JFrame {
 		this.buttonPanel.setBackground(Color.BLACK);
 		this.buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		{
+			this.btnDashboard = new JButton("Dashboard");
+			this.btnDashboard.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+			this.btnDashboard.setForeground(Color.WHITE);
+			this.btnDashboard.setBackground(new Color(53,81,208));
+			this.btnDashboard.setSize(new Dimension(100, 40));
+			this.btnDashboard.setPreferredSize(new Dimension(130, 40));
+			this.btnDashboard.setMaximumSize(new Dimension(100, 40));
+			this.btnDashboard.setMinimumSize(new Dimension(100, 40));
+			this.buttonPanel.add(this.btnDashboard);
+		}
+		{
 			this.btnCustomer = new JButton("Cliente");
-			this.btnCustomer.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-			this.btnCustomer.setForeground(Color.WHITE);
-			this.btnCustomer.setBackground(new Color(53,81,208));
 			this.btnCustomer.setSize(new Dimension(100, 40));
 			this.btnCustomer.setPreferredSize(new Dimension(130, 40));
-			this.btnCustomer.setMaximumSize(new Dimension(100, 40));
 			this.btnCustomer.setMinimumSize(new Dimension(100, 40));
+			this.btnCustomer.setMaximumSize(new Dimension(100, 40));
+			this.btnCustomer.setForeground(Color.WHITE);
+			this.btnCustomer.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+			this.btnCustomer.setBackground(new Color(53, 81, 208));
 			this.buttonPanel.add(this.btnCustomer);
 		}
 		{

@@ -35,7 +35,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="swingx-all-1.6.5-1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FormSwing">
 		<attributes>
 			<attribute name="module" value="true"/>

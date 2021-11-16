@@ -1,6 +1,8 @@
 package cliente.presentation.controller;
-
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import app.AppProvider;
 import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormField;
@@ -8,18 +10,20 @@ import br.com.formSwing.validation.FormValidation;
 import cliente.data.CustomerDAO;
 import cliente.presentation.model.Customer;
 import cliente.presentation.store.CustomerStore;
+import cliente.presentation.util.CustomerMsg;
 import shared.Action;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class keepCustomerController implements ActionListener{
 	
+	private JFrame frame;
 	private FormField fieldName;
 	private FormField fieldEmail;
 	private FormField fieldNumber;
 	private FormField fieldCPF;
+	private JTable table;
+	private DefaultTableModel tableModel;
 	private JButton btn;
 	private FormSwing formSwing;
 	private Action action;
@@ -30,7 +34,6 @@ public class keepCustomerController implements ActionListener{
 	public keepCustomerController(CustomerDAO dao){
 		this.dao = dao;
 		this.formSwing = new FormSwing();
-		
 	}
 	
 	@Override
@@ -38,14 +41,20 @@ public class keepCustomerController implements ActionListener{
 		if(isValidForm()) {
 			switch (action) {
 				case NEW:{
-					if(dao.insert(createCustomer()))
-						appProvider.showMessageUI("Cliente salvo com sucesso!");
-					else appProvider.showMessageUI("Falha ao salvar cliente!");
+					if(dao.insert(createNewCustomer())) {
+						appProvider.showMessageUI(CustomerMsg.NEW_SUCCESS.getMessage());
+						frame.dispose();
+					}	
+					else appProvider.showMessageUI(CustomerMsg.NEW_ERROR.getMessage());
 				}break;
 				case EDIT:{
-					if(dao.update(createCustomer()))
-						appProvider.showMessageUI("Cliente atualizado com sucesso!");
-					else appProvider.showMessageUI("Falha ao atualizar cliente!");
+					Customer editedCustomer = createEditedCustomer();
+					if(dao.update(editedCustomer)) {
+						store.actionSetChangedCustomer(editedCustomer);
+						appProvider.showMessageUI(CustomerMsg.EDIT_SUCCESS.getMessage());
+						frame.dispose();
+					}
+					else appProvider.showMessageUI(CustomerMsg.EDIT_ERROR.getMessage());
 				}break;
 			}
 		}
@@ -62,19 +71,24 @@ public class keepCustomerController implements ActionListener{
 				}
 			});
 			
-			store.setState();
+			store.actionSetCustomerOnFields();
 		}
 	}
 	
 	private boolean isValidForm() {
 		FormValidation v = formSwing.formValidation();
+		
+		String name = fieldName.getText();
+		String email = fieldEmail.getText();
+		String number = fieldNumber.getText();
+		
 		formSwing
 			.field("name", fieldName)
-			.attribute("name", v.string().isRequired(fieldName.getText()), "Campo requerido")
 			.field("email", fieldEmail)
-			.attribute("email", v.string().isEmail(fieldEmail.getText()), "Email inválido")
 			.field("number", fieldNumber)
-			.attribute("number", v.string().isRequired(fieldNumber.getText()), "Campo requerido");
+			.attribute("name", v.string().isRequired(name), "O nome é requerido")
+			.attribute("email", v.string().isEmail(email), "O email precisa ser válido")
+			.attribute("number", v.string().isDigit(number), "O número precisa ser um digito");
 		
 		if(formSwing.isValid())
 			return true;
@@ -84,14 +98,24 @@ public class keepCustomerController implements ActionListener{
 		}
 	}
 	
-	private Customer createCustomer() {
+	private Customer createNewCustomer() {
 		Customer customer = new Customer(
 				fieldName.getText(), 
 				fieldNumber.getText(), 
 				fieldEmail.getText(), 
 				fieldCPF.getText()
 		);
-		
+		return customer;
+	}
+	
+	private Customer createEditedCustomer() {
+		Customer customer = new Customer(
+				store.getCustomer().getId(),
+				fieldName.getText(), 
+				fieldNumber.getText(), 
+				fieldEmail.getText(), 
+				fieldCPF.getText()
+		);
 		return customer;
 	}
 	
@@ -103,6 +127,7 @@ public class keepCustomerController implements ActionListener{
 	}
 	
 	public void setUIitems(
+			JFrame frame,
 			FormField fieldName, 
 			FormField fieldEmail, 
 			FormField fieldNumber, 
@@ -110,6 +135,7 @@ public class keepCustomerController implements ActionListener{
 			JButton btn, 
 			Action action) 
 	{
+		this.frame = frame;
 		this.fieldName = fieldName;
 		this.fieldEmail = fieldEmail;
 		this.fieldNumber = fieldNumber;

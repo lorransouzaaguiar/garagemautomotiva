@@ -13,8 +13,8 @@ import cliente.data.CustomerDAO;
 import cliente.factory.CustomerFactory;
 import cliente.presentation.model.Customer;
 import cliente.presentation.store.CustomerStore;
+import cliente.presentation.util.CustomerMsg;
 import shared.Action;
-
 
 public class ManageCustomerController {
 	private JTextField tfSearch;
@@ -41,7 +41,7 @@ public class ManageCustomerController {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1)
 					CustomerFactory.keepCustomer(Action.EDIT);
-				else appProvider.showMessageUI("Selecione uma linha da tabela");
+				else appProvider.showMessageUI(CustomerMsg.TABLE_WARNING.getMessage());
 			}
 		};
 	}
@@ -55,11 +55,11 @@ public class ManageCustomerController {
 					if(dao.delete(id)) {
 						store.removeCustomer();
 						tableModel.removeRow(selectedTableRow);
-						appProvider.showMessageUI("Cliente deletado com sucesso!");
+						appProvider.showMessageUI(CustomerMsg.DELETE_SUCCESS.getMessage());
 					}
-					else appProvider.showMessageUI("Falha ao deletar cliente!");
+					else appProvider.showMessageUI(CustomerMsg.DELETE_ERROR.getMessage());
 				}
-				else appProvider.showMessageUI("Selecione uma linha da tabela");
+				else appProvider.showMessageUI(CustomerMsg.TABLE_WARNING.getMessage());
 			}
 		};
 	}
@@ -73,9 +73,9 @@ public class ManageCustomerController {
 					if(!customers.isEmpty()) {
 						store.setCustomerList(customers);
 						setCustomerOnTable(customers);
-					}else appProvider.showMessageUI("Nenhum cliente encontrado");
-					
-				}else appProvider.showMessageUI("Insira o nome a ser pesquisado!");
+						appProvider.showMessageUI(CustomerMsg.SEARCH_SUCCESS.getMessage());
+					}else appProvider.showMessageUI(CustomerMsg.SEARCH_ERROR.getMessage());	
+				}else appProvider.showMessageUI(CustomerMsg.SEARCHFIELD_EMPTY.getMessage());
 			}
 		};
 	}
@@ -89,7 +89,18 @@ public class ManageCustomerController {
 		};
 	}
 	
+	public void addListener() {
+		store.addListener(e -> {
+			if(e.getPropertyName().equals("changedCustomer")) {
+				clearDataOnTable();
+				List<Customer> updatedCustomers = store.getCustomers();
+				setCustomerOnTable(updatedCustomers);
+			}
+		});
+	}
+	
 	private void setCustomerOnTable(List<Customer> customers) {
+		clearDataOnTable();
 		customers.forEach(cus -> {
 			tableModel.addRow(new Object [] {
 					cus.getName(), 
@@ -97,6 +108,11 @@ public class ManageCustomerController {
 					cus.getEmail(), 
 					cus.getCpf()});
 		});
+	}
+	
+	private void clearDataOnTable() {
+		tableModel.getDataVector().removeAllElements();
+		tableModel.fireTableDataChanged();
 	}
 	
 	
@@ -107,6 +123,7 @@ public class ManageCustomerController {
 		this.tfSearch = tfSearch;
 		this.table = table;
 		this.tableModel = (DefaultTableModel) table.getModel();
+		addListener();
 	
 	}
 }

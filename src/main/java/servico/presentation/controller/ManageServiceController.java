@@ -10,10 +10,12 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import app.AppProvider;
 import cliente.factory.CustomerFactory;
+import cliente.presentation.model.Customer;
 import servico.data.ServiceDAO;
 import servico.fatory.ServiceFactory;
 import servico.presentation.model.Service;
 import servico.presentation.store.ServiceStore;
+import servico.presentation.util.ServiceMsg;
 import shared.Action;
 
 public class ManageServiceController {
@@ -41,7 +43,7 @@ public class ManageServiceController {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1)
 					ServiceFactory.keepService(Action.EDIT);
-				else appProvider.showMessageUI("Selecione uma linha da tabela");
+				else appProvider.showMessageUI(ServiceMsg.TABLE_WARNING.getMessage());
 			}
 		};
 	}
@@ -55,11 +57,11 @@ public class ManageServiceController {
 					if(dao.delete(id)) {
 						store.removeService();
 						tableModel.removeRow(selectedTableRow);
-						appProvider.showMessageUI("Serviço deletado com sucesso!");
+						appProvider.showMessageUI(ServiceMsg.DELETE_SUCCESS.getMessage());
 					}
-					else appProvider.showMessageUI("Falha ao deletar serviço!");
+					else appProvider.showMessageUI(ServiceMsg.DELETE_ERROR.getMessage());
 				}
-				else appProvider.showMessageUI("Selecione uma linha da tabela");
+				else appProvider.showMessageUI(ServiceMsg.TABLE_WARNING.getMessage());
 			}
 		};
 	}
@@ -70,9 +72,12 @@ public class ManageServiceController {
 				String name = tfSearch.getText();
 				if(!name.isEmpty()) {
 					List<Service> services = dao.searchByName(name);
-					store.setServiceList(services);
-					setServiceOnTable(services);
-				}else appProvider.showMessageUI("Insira o nome a ser pesquisado!");
+					if(!services.isEmpty()) {
+						store.setServiceList(services);
+						setServiceOnTable(services);
+						appProvider.showMessageUI(ServiceMsg.SEARCH_SUCCESS.getMessage());
+					}else appProvider.showMessageUI(ServiceMsg.SEARCH_ERROR.getMessage());
+				}else appProvider.showMessageUI(ServiceMsg.SEARCHFIELD_EMPTY.getMessage());
 			}
 		};
 	}
@@ -86,7 +91,23 @@ public class ManageServiceController {
 		};
 	}
 	
+	public void addListener() {
+		store.addListener(e -> {
+			if(e.getPropertyName().equals("changedService")) {
+				clearDataOnTable();
+				List<Service> updatedServices = store.getServices();
+				setServiceOnTable(updatedServices);
+			}
+		});
+	}
+	
+	private void clearDataOnTable() {
+		tableModel.getDataVector().removeAllElements();
+		tableModel.fireTableDataChanged();
+	}
+	
 	private void setServiceOnTable(List<Service> services) {
+		clearDataOnTable();
 		services.forEach(ser -> {
 			String price = String.valueOf(ser.getPrice());
 			tableModel.addRow(new Object[] {
@@ -103,6 +124,6 @@ public class ManageServiceController {
 		this.tfSearch = tfSearch;
 		this.table = table;
 		this.tableModel = (DefaultTableModel) table.getModel();
-	
+		addListener();
 	}
 }

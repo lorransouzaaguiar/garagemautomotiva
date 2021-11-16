@@ -7,6 +7,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -20,10 +24,22 @@ public abstract class ManageView extends JPanel {
 	protected JScrollPane scrollPane;
 	protected JTextField tfSearch;
 	protected JTable table;
+	protected DefaultTableCellRenderer centerRenderer;
 
 	protected ManageView() {
+		this.centerRenderer = new DefaultTableCellRenderer();
 		initComponents();
+		
 	}
+	
+	protected void centerDataColumns() {
+		centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+		int columnCount = table.getModel().getColumnCount();
+		for (int i = 0; i < columnCount; i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+		}
+	}
+	
 	private void initComponents() {
 		setPreferredSize(new Dimension(663, 308));
 		setSize(new Dimension(700, 500));
@@ -92,7 +108,12 @@ public abstract class ManageView extends JPanel {
 		);
 		{
 			this.table = new JTable();
+			this.table.setRowMargin(10);
+			this.table.setRowHeight(40);
+			this.table.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+			table.setSelectionBackground(new Color(53,81,208));
 			this.scrollPane.setViewportView(this.table);
+			
 		}
 		setLayout(groupLayout);
 	}

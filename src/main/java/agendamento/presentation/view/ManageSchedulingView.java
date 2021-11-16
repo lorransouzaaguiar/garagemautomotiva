@@ -28,7 +28,7 @@ public class ManageSchedulingView extends ManageView {
 			new Object[][] {
 			},
 			new String[] {
-				"Cliente", "Servi\u00E7o", "Data"
+				"Cliente", "Serviço", "Data"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {

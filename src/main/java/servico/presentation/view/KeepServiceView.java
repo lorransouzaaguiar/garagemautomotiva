@@ -27,9 +27,10 @@ public class KeepServiceView extends JFrame {
 	public KeepServiceView(keepServiceController controller, Action action) {
 		this.action = action;
 		initComponents();
+		setLocationRelativeTo(null);
 		changeUI();
 		
-		controller.setUIitems(fieldDescription, fieldPrice, btn, action);
+		controller.setUIitems(this, fieldDescription, fieldPrice, btn, action);
 	}
 	
 	private void changeUI() {
@@ -53,7 +54,7 @@ public class KeepServiceView extends JFrame {
 	
 	private void initComponents() {
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 680, 265);
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -34,7 +34,8 @@ public class CustomerDAOImpl implements CustomerDAO{
 
 	@Override
 	public boolean update(Customer customer) {
-		String sql = "update cliente set nome = ?, celular = ?, email = ?, cpf = ?";
+		String sql = "update cliente set nome = ?, celular = ?, email = ?, cpf = ? "
+				+ "where id_cliente = '"+customer.getId()+"'";
 		try {
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -42,7 +43,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 			stmt.setString(2, customer.getNumber());
 			stmt.setString(3, customer.getEmail());
 			stmt.setString(4, customer.getCpf());
-			stmt.execute();
+			stmt.executeUpdate();
 			return true;
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
@@ -58,7 +59,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 		try {
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.execute();
+			stmt.executeUpdate();
 			return true;
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
@@ -75,7 +76,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 		try {
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				String id = rs.getString(1);
 				String dbName = rs.getString(2);
@@ -102,7 +103,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 		try {
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				String id = rs.getString(1);
 				String dbName = rs.getString(2);

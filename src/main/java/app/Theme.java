@@ -9,7 +9,7 @@ public class Theme {
 		try {
 		    UIManager.setLookAndFeel( new FlatDarculaLaf() );
 		} catch( Exception ex ) {
-		    System.err.println( "Failed to initialize LaF" );
+		    System.err.println( "Falha ao iniciar Tema" );
 		}
 	}
 }	

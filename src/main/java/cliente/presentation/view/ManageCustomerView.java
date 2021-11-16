@@ -2,14 +2,13 @@ package cliente.presentation.view;
 import cliente.presentation.controller.ManageCustomerController;
 import shared.ManageView;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
 
 public class ManageCustomerView  extends ManageView{
 
 	public ManageCustomerView(ManageCustomerController controller) {
 		super();
-	
 		initComponents();
-		
 		controller.setUIitems(tfSearch, table);
 		
 		this.btnNew.addActionListener(controller.btnNewListener());
@@ -35,6 +34,7 @@ public class ManageCustomerView  extends ManageView{
 				return columnEditables[column];
 			}
 		});
+		centerDataColumns();
 	}
 
 }
