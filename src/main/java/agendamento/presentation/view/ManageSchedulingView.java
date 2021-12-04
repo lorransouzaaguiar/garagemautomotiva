@@ -1,38 +1,49 @@
 package agendamento.presentation.view;
+
+import shared.Action;
 import shared.ManageView;
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import agendamento.factory.SchedulingFactory;
 import agendamento.presentation.controller.ManageSchedulingController;
 
 public class ManageSchedulingView extends ManageView {
-
 	
+	private ManageSchedulingController controller;
+
 	public ManageSchedulingView(ManageSchedulingController controller) {
-		initComponents();
-		controller.setUIitems(tfSearch, table);
+		this.controller = controller;
+		controller.setUiItem(table);
+		actionButton();
 		
-		this.btnNew.addActionListener(controller.btnNewListener());
-		this.btnEdit.addActionListener(controller.btnEditListener());
-		this.btnDelete.addActionListener(controller.btnDeleteListener());
-		this.btnSearch.addActionListener(controller.btnSearchListener());
-		this.table.addMouseListener(controller.tableListener());
+		table.setModel(new String[] {"Cliente", "Serviço", "Data" });
 	}
 	
-	@SuppressWarnings("serial")
-	private void initComponents() {
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Cliente", "Serviço", "Data"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+	private void actionButton() {
+		this.btnNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SchedulingFactory.keepScheduling(Action.NEW);
 			}
 		});
-	}
 
+		this.btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.update();
+			}
+		});
+
+		this.btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.delete();
+			}
+		});
+
+		this.btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = tfSearch.getText();
+				controller.search(name);
+			}
+		});
+
+	}
 }
