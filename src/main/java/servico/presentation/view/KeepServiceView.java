@@ -2,7 +2,10 @@ package servico.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormField;
+import br.com.formSwing.validation.FormValidation;
 import servico.presentation.controller.keepServiceController;
 import shared.Action;
 import javax.swing.GroupLayout;
@@ -15,41 +18,43 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 
 public class KeepServiceView extends JFrame {
-
-	private JPanel contentPane;
-	private JLabel title;
-	private JPanel formPanel;
-	private FormField fieldDescription;
-	private FormField fieldPrice;
-	private JButton btn;
-	private  Action action;
+	protected JFrame frame;
+	protected JPanel contentPane;
+	protected JLabel title;
+	protected JPanel formPanel;
+	protected FormField fieldDescription;
+	protected FormField fieldPrice;
+	protected JButton btn;
+	protected FormSwing formSwing;
+	protected keepServiceController controller;
 	
-	public KeepServiceView(keepServiceController controller, Action action) {
-		this.action = action;
+	public KeepServiceView(keepServiceController controller) {
+		this.controller = controller;
+		this.formSwing = new FormSwing();
+		this.frame = this;
+		
 		initComponents();
 		setLocationRelativeTo(null);
-		changeUI();
 		
-		controller.setUIitems(this, fieldDescription, fieldPrice, btn, action);
-	}
-	
-	private void changeUI() {
 		this.fieldDescription.setTitle("Descrição");
 		this.fieldPrice.setTitle("Preço");
-
-		switch (action) {
-		case NEW: {
-			this.title.setText("Novo Serviço");
-			this.btn.setText("Salvar");
-		}break;
-		case EDIT: {
-			this.title.setText("Alterar Serviço");
-			this.btn.setText("Alterar");
-		}break;
-
-		default:
-			break;
-		}
+	}
+	
+	protected boolean isValidForm() {
+		FormValidation v = formSwing.formValidation();
+		formSwing
+			.field("description", fieldDescription)
+			.attribute("description", v.string().isRequired(fieldDescription.getText()), 
+					"A descrição é requerido")
+			.field("price", fieldPrice)
+			.attribute("price", v.string().isRequired(fieldPrice.getText()), 
+					"O preço é requerido");
+			
+		if(formSwing.isValid())
+			return true;
+	
+		formSwing.showErrors();
+		return false;
 	}
 	
 	private void initComponents() {

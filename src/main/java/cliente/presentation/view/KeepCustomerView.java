@@ -31,7 +31,7 @@ public abstract class KeepCustomerView extends JFrame {
 	protected FormField fieldCPF;
 	protected JButton btn;
 	protected keepCustomerController controller;
-	private FormSwing formSwing;
+	protected FormSwing formSwing;
 	
 	public KeepCustomerView(keepCustomerController controller) {
 		this.formSwing = new FormSwing();

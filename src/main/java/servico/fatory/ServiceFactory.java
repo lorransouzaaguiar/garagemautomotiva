@@ -3,16 +3,25 @@ package servico.fatory;
 import servico.data.ServiceDAOImpl;
 import servico.presentation.controller.ManageServiceController;
 import servico.presentation.controller.keepServiceController;
+import servico.presentation.view.InsertServiceView;
 import servico.presentation.view.KeepServiceView;
 import servico.presentation.view.ManageServiceView;
+import servico.presentation.view.UpdateServiceView;
 import shared.Action;
 
 public class ServiceFactory {
 	
-	public static KeepServiceView keepService(Action action) {
+	private static keepServiceController keepServiceController() {
 		ServiceDAOImpl dao = new ServiceDAOImpl();
-		keepServiceController controller = new keepServiceController(dao);
-		return new KeepServiceView(controller, action);
+		return new keepServiceController(dao);
+	}
+	
+	public static InsertServiceView insertServiceView() {
+		return new InsertServiceView(keepServiceController());
+	}
+	
+	public static UpdateServiceView updateServiceView() {
+		return new UpdateServiceView(keepServiceController());
 	}
 	
 	public static ManageServiceView manageService() {
@@ -20,6 +29,5 @@ public class ServiceFactory {
 		ManageServiceController controller = new ManageServiceController(dao);
 		return new ManageServiceView(controller);
 	}
-	
 	
 }

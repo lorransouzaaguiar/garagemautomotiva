@@ -14,13 +14,20 @@ public class Service {
 		this.description = description;
 		this.price = price;
 	}
+	
+	public Service(String id, String description, String price) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.price = Double.parseDouble(price.replace(",", "."));
+	}
 
 
-	public Service(String description, double price) {
+	public Service(String description, String price) {
 		super();
 		this.id = UUID.randomUUID().toString();
 		this.description = description;
-		this.price = price;
+		this.price = Double.parseDouble(price.replace(",", "."));
 	}
 
 	public String getId() {
