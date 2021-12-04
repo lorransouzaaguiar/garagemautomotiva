@@ -1,12 +1,7 @@
 package agendamento.presentation.view;
-
-import javax.swing.JPanel;
-
 import shared.ManageView;
 import javax.swing.table.DefaultTableModel;
-
 import agendamento.presentation.controller.ManageSchedulingController;
-import servico.presentation.controller.ManageServiceController;
 
 public class ManageSchedulingView extends ManageView {
 

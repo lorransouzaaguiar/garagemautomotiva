@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import java.awt.Font;
@@ -23,21 +24,10 @@ public abstract class ManageView extends JPanel {
 	protected JButton btnSearch;
 	protected JScrollPane scrollPane;
 	protected JTextField tfSearch;
-	protected JTable table;
-	protected DefaultTableCellRenderer centerRenderer;
+	protected CustomTable table;
 
 	protected ManageView() {
-		this.centerRenderer = new DefaultTableCellRenderer();
 		initComponents();
-		
-	}
-	
-	protected void centerDataColumns() {
-		centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
-		int columnCount = table.getModel().getColumnCount();
-		for (int i = 0; i < columnCount; i++) {
-			table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
-		}
 	}
 	
 	private void initComponents() {
@@ -107,7 +97,7 @@ public abstract class ManageView extends JPanel {
 					.addGap(10))
 		);
 		{
-			this.table = new JTable();
+			this.table = new CustomTable();
 			this.table.setRowMargin(10);
 			this.table.setRowHeight(40);
 			this.table.setFont(new Font("Segoe UI", Font.PLAIN, 16));

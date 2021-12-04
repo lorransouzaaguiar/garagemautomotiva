@@ -11,4 +11,5 @@ public class SearchCustomerFactory {
 		SearchCustomerController controller = new SearchCustomerController(dao);
 		return new SearchCustomerView(controller);
 	}
+	
 }	

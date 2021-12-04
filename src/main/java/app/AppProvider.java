@@ -2,9 +2,7 @@ package app;
 
 import javax.swing.JOptionPane;
 
-import shared.Observable;
-
-public class AppProvider extends Observable{
+public class AppProvider {
 	
 	private static AppProvider instance = null;
 	

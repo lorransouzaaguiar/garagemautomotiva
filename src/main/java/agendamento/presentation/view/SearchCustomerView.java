@@ -1,8 +1,5 @@
 package agendamento.presentation.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +8,6 @@ import agendamento.presentation.controller.SearchCustomerController;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -31,9 +27,11 @@ public class SearchCustomerView extends JFrame {
 	
 	public SearchCustomerView(SearchCustomerController controller) {
 		initComponents();
+		setLocationRelativeTo(null);
 		setVisible(true);
+		
 		this.controller = controller;
-		this.controller.setUIitems(textField, btnSearch, btnOk, table);
+		this.controller.setUIitems(this, textField, btnSearch, btnOk, table);
 	}
 	
 	private void initComponents() {

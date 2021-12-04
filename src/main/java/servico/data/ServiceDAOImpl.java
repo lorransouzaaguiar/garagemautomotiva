@@ -95,7 +95,7 @@ public class ServiceDAOImpl implements ServiceDAO{
 	@Override
 	public List<Service> searchAll() {
 		List<Service> services = new ArrayList<Service>();
-		String sql = "select * from";
+		String sql = "select * from servico";
 		try {
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);

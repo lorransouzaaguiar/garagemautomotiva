@@ -51,6 +51,8 @@ public class MainView extends JFrame {
 
 	public MainView() {
 		initComponents();
+		setLocationRelativeTo(null);
+		
 		this.controller = new MainController(mainPanel, pageTitle);
 		
 		this.btnDashboard.addActionListener(controller.dashboardListener());
@@ -61,6 +63,7 @@ public class MainView extends JFrame {
 	}
 	
 	private void initComponents() {
+		setMinimumSize(new Dimension(960, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 468);
 		this.contentPane = new JPanel();

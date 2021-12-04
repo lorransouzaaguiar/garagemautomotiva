@@ -2,7 +2,10 @@ package cliente.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormField;
+import br.com.formSwing.validation.FormValidation;
 import cliente.presentation.controller.keepCustomerController;
 import shared.Action;
 import javax.swing.GroupLayout;
@@ -13,53 +16,64 @@ import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class KeepCustomerView extends JFrame {
-
-	private JPanel contentPane;
-	private JLabel title;
-	private JPanel formPanel;
-	private FormField fieldName;
-	private FormField fieldEmail;
-	private FormField fieldNumber;
-	private FormField fieldCPF;
-	private JButton btn;
-	private keepCustomerController controller;
-	private Action action;
+public abstract class KeepCustomerView extends JFrame {
 	
-	public KeepCustomerView(keepCustomerController controller, Action action) {
-		this.action = action;
+	protected JFrame frame;
+	protected JPanel contentPane;
+	protected JLabel title;
+	protected JPanel formPanel;
+	protected FormField fieldName;
+	protected FormField fieldEmail;
+	protected FormField fieldNumber;
+	protected FormField fieldCPF;
+	protected JButton btn;
+	protected keepCustomerController controller;
+	private FormSwing formSwing;
+	
+	public KeepCustomerView(keepCustomerController controller) {
+		this.formSwing = new FormSwing();
+		this.frame = this;
+		this.controller = controller;
+		
 		initComponents();
 		setLocationRelativeTo(null);
-		changeUI();
 		setVisible(true);
-
-		this.controller = controller;
-		this.controller.setUIitems(this, fieldName, fieldEmail, fieldNumber, fieldCPF, btn, action);
-	}
-	
-	private void changeUI() {
+		
 		this.fieldName.setTitle("Nome");
 		this.fieldNumber.setTitle("Celular");
 		this.fieldEmail.setTitle("Email");
 		this.fieldCPF.setTitle("CPF");
 		
-		switch (action) {
-		case NEW: {
-			this.title.setText("Novo Cliente");
-			this.btn.setText("Salvar");
-		}break;
-		case EDIT: {
-			this.title.setText("Alterar Cliente");
-			this.btn.setText("Alterar");
-		}break;
-
-		default:
-			break;
+	}
+	
+	protected boolean isValidForm() {
+		FormValidation v = formSwing.formValidation();
+		
+		String name = fieldName.getText();
+		String email = fieldEmail.getText();
+		String number = fieldNumber.getText();
+		
+		formSwing
+			.field("name", fieldName)
+			.field("email", fieldEmail)
+			.field("number", fieldNumber)
+			.attribute("name", v.string().isRequired(name), "O nome é requerido")
+			.attribute("email", v.string().isEmail(email), "O email precisa ser válido")
+			.attribute("number", v.string().isDigit(number), "O número precisa ser um digito");
+		
+		if(formSwing.isValid())
+			return true;
+		else {
+			formSwing.showErrors();
+			return false;
 		}
 	}
+	
 
-	private void initComponents() {
+	protected void initComponents() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 680, 359);

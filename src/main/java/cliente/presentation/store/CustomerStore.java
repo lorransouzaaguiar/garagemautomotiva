@@ -12,7 +12,6 @@ public class CustomerStore extends Observable{
 	private List<Customer> customers;
 	private String idCustomer = null;
 	private int selectedTableRow = -1;
-	private boolean state = false;
 	
 	private CustomerStore() {
 		this.customers = new ArrayList<>();
@@ -35,10 +34,11 @@ public class CustomerStore extends Observable{
 	}
 	
 	public void actionSetCustomerOnFields() {
-		boolean oldValue = this.state;
-		boolean newValue = true;
-		this.support.firePropertyChange("getCustomer", oldValue, newValue);
-		this.state = false;
+		this.support.firePropertyChange("getCustomer", false, true);
+	}
+	
+	public void dispatchCustomerToSheduling() {
+		this.support.firePropertyChange("getCustomerFromSearch", false, true);
 	}
 	
 	public void actionSetChangedCustomer(Customer cus) {
@@ -64,7 +64,5 @@ public class CustomerStore extends Observable{
 	public List<Customer> getCustomers() {
 		return customers;
 	}
-
-	
 
 }

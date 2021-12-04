@@ -1,6 +1,8 @@
 package agendamento.presentation.model;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import cliente.presentation.model.Customer;
 import servico.presentation.model.Service;
@@ -8,21 +10,23 @@ import servico.presentation.model.Service;
 public class Scheduling {
 	private String id;
 	private Customer customer;
-	private Service service;
+	private List<Service> services;
 	private Date date;
+	private String hour;
 	
-	public Scheduling(String id, Customer customer, Service service, Date date) {
+	public Scheduling(String id, Customer customer, List<Service> services, Date date, String hour) {
 		super();
 		this.id = id;
 		this.customer = customer;
-		this.service = service;
+		this.services = services;
 		this.date = date;
 	}
 
-	public Scheduling(Customer customer, Service service, Date date) {
+	public Scheduling(Customer customer, List<Service> services, Date date, String hour) {
 		super();
+		this.id = UUID.randomUUID().toString();
 		this.customer = customer;
-		this.service = service;
+		this.services = services;
 		this.date = date;
 	}
 
@@ -34,12 +38,18 @@ public class Scheduling {
 		return customer;
 	}
 
-	public Service getService() {
-		return service;
+	public List<Service> getServices() {
+		return services;
 	}
 
 	public Date getDate() {
 		return date;
 	}
+
+	public String getHour() {
+		return hour;
+	}
+	
+	
 	
 }

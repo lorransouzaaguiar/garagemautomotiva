@@ -3,9 +3,9 @@ import cliente.data.CustomerDAO;
 import cliente.data.CustomerDAOImpl;
 import cliente.presentation.controller.ManageCustomerController;
 import cliente.presentation.controller.keepCustomerController;
-import cliente.presentation.view.KeepCustomerView;
+import cliente.presentation.view.InsertCustomerView;
 import cliente.presentation.view.ManageCustomerView;
-import shared.Action;
+import cliente.presentation.view.UpdateCustomerView;
 
 public class CustomerFactory {
 	
@@ -15,9 +15,18 @@ public class CustomerFactory {
 		return new ManageCustomerView(controller);
 	}
 	
-	public static KeepCustomerView keepCustomer(Action action) {
+	private static keepCustomerController keepCustomerController() {
 		CustomerDAO dao = new CustomerDAOImpl();
-		keepCustomerController controller = new keepCustomerController(dao);
-		return new KeepCustomerView(controller, action);
+		return new keepCustomerController(dao);
+	}
+	
+	public static InsertCustomerView insertCustomerView() {
+		keepCustomerController controller = keepCustomerController();
+		return new InsertCustomerView(controller);
+	}
+	
+	public static UpdateCustomerView updateCustomerView() {
+		keepCustomerController controller = keepCustomerController();
+		return new UpdateCustomerView(controller);
 	}
 }

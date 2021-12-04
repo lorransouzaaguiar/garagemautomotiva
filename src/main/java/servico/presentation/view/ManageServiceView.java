@@ -22,7 +22,7 @@ public class ManageServiceView extends ManageView {
 	}
 	
 	@SuppressWarnings("serial")
-	private void initComponents() {
+	public void initComponents() {
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
