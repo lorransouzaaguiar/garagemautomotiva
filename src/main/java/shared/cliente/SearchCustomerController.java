@@ -1,4 +1,4 @@
-package agendamento.presentation.controller;
+package shared.cliente;
 
 import java.util.List;
 import java.awt.event.ActionEvent;

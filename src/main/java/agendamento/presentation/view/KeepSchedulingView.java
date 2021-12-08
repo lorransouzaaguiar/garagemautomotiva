@@ -3,7 +3,6 @@ package agendamento.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import agendamento.factory.SearchCustomerFactory;
 import agendamento.presentation.controller.keepSchedulingController;
 import agendamento.presentation.model.Scheduling;
 import cliente.presentation.model.Customer;
@@ -25,6 +24,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Dimension;
 import shared.CustomTable;
+import shared.cliente.SearchCustomerFactory;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;

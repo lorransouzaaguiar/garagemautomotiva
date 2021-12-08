@@ -2,12 +2,10 @@ package cliente.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormField;
 import br.com.formSwing.validation.FormValidation;
 import cliente.presentation.controller.keepCustomerController;
-import shared.Action;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -16,8 +14,6 @@ import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public abstract class KeepCustomerView extends JFrame {
 	

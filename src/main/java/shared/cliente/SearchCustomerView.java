@@ -1,25 +1,16 @@
-package agendamento.presentation.view;
+package shared.cliente;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import agendamento.presentation.controller.SearchCustomerController;
-import cliente.presentation.model.Customer;
-import cliente.presentation.util.CustomerMsg;
 import shared.CustomTable;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class SearchCustomerView extends JFrame {
 

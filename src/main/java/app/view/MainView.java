@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class MainView extends JFrame {
 
@@ -162,19 +163,21 @@ public class MainView extends JFrame {
 			this.btnProduct.setMaximumSize(new Dimension(100, 40));
 			this.buttonPanel.add(this.btnProduct);
 		}
-		this.logo = new JLabel("logo");
+		this.logo = new JLabel("");
+		logo.setHorizontalAlignment(SwingConstants.CENTER);
+		logo.setIcon(new ImageIcon(MainView.class.getResource("/img/logo-1.png")));
 		GroupLayout gl_sidePanel = new GroupLayout(this.sidePanel);
 		gl_sidePanel.setHorizontalGroup(
 			gl_sidePanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(this.buttonPanel, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE)
-				.addComponent(this.logo, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+				.addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+				.addComponent(logo, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 		);
 		gl_sidePanel.setVerticalGroup(
 			gl_sidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_sidePanel.createSequentialGroup()
-					.addComponent(this.logo, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addComponent(logo, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.buttonPanel, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
+					.addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
 		);
 		
 		this.btnSell = new JButton("Caixa");

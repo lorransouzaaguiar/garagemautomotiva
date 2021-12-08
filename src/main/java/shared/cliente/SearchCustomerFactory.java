@@ -1,7 +1,5 @@
-package agendamento.factory;
+package shared.cliente;
 
-import agendamento.presentation.controller.SearchCustomerController;
-import agendamento.presentation.view.SearchCustomerView;
 import cliente.data.CustomerDAOImpl;
 
 public class SearchCustomerFactory {

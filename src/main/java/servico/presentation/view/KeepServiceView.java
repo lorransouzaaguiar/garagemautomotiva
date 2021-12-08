@@ -2,12 +2,10 @@ package servico.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import br.com.formSwing.FormSwing;
 import br.com.formSwing.components.FormField;
 import br.com.formSwing.validation.FormValidation;
 import servico.presentation.controller.keepServiceController;
-import shared.Action;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
