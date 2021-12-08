@@ -26,7 +26,7 @@ public class SchedulingStore extends Observable{
 		return instance;
 	}
 	
-	public void setServiceList(List<Scheduling> scheduling) {
+	public void setSchedulingList(List<Scheduling> scheduling) {
 		this.scheduling = scheduling;
 	}
 	

@@ -31,7 +31,7 @@ public abstract class ManageView extends JPanel {
 	}
 	
 	private void initComponents() {
-		setPreferredSize(new Dimension(663, 308));
+		setPreferredSize(new Dimension(693, 308));
 		setSize(new Dimension(700, 500));
 		this.btnNew = new JButton("Novo");
 		this.btnNew.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -66,35 +66,34 @@ public abstract class ManageView extends JPanel {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(this.scrollPane, GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(this.btnNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(this.btnEdit, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(this.btnDelete, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(this.tfSearch, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+							.addComponent(tfSearch, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(this.btnSearch, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(5))))
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(this.tfSearch)
-						.addComponent(this.btnSearch, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(this.btnDelete, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(this.btnEdit, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(this.btnNew, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.scrollPane, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-					.addGap(10))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+							.addComponent(btnNew, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(tfSearch))
+						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+					.addGap(12)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		{
 			this.table = new CustomTable();

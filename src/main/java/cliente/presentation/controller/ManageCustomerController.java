@@ -33,12 +33,14 @@ public class ManageCustomerController {
 	}
 
 	public void delete() {
-		String id = store.getCustomer().getId();
-
+		int selectedTableRow = table.getSelectedRow();
+		
 		if (table.lineIsSelected()) {
-
+			String id = store.getCustomer().getId();
+			store.setSelectedTableRow(selectedTableRow);
+			
 			if (dao.delete(id)) {
-				table.removeRow(table.getSelectedRow());
+				table.removeRow(selectedTableRow);
 				appProvider.showMessageUI(CustomerMsg.DELETE_SUCCESS.getMessage());
 			} else
 				appProvider.showMessageUI(CustomerMsg.DELETE_ERROR.getMessage());

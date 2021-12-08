@@ -14,7 +14,7 @@ public class UpdateServiceView extends KeepServiceView {
 		super(controller);
 		actionButton();
 		changeUI();
-		addListener();
+		setServiceOnFields();
 	}
 
 	private void changeUI() {
@@ -22,23 +22,14 @@ public class UpdateServiceView extends KeepServiceView {
 		this.btn.setText("Alterar");
 	}
 
-	private void addListener() {
-		store.addListener(e -> {
-			if (e.getPropertyName().equals("getService")) {
-				Service serv = store.getService();
-				if (serv != null) {
-					setServiceOnFields(serv);
-				}
-			}
-		});
-
-		store.actionSetServiceOnFields();
-	}
-
-	private void setServiceOnFields(Service service) {
-		String price = String.valueOf(service.getPrice()).replace(".", ",");
-		fieldDescription.setText(service.getDescription());
-		fieldPrice.setText(price);
+	private void setServiceOnFields() {
+		Service service = store.getService();
+		if (service != null) {
+			String price = String.valueOf(service.getPrice()).replace(".", ",");
+			fieldDescription.setText(service.getDescription());
+			fieldPrice.setText(price);
+		}
+		
 	}
 
 	private void actionButton() {

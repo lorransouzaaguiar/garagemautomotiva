@@ -44,6 +44,11 @@ public class Service {
 		return price;
 	}
 
+	@Override
+	public String toString() {
+		return "Service [id=" + id + "\n, description=" + description + "\n, price=" + price + "\n]";
+	}
+
 	
 	
 }

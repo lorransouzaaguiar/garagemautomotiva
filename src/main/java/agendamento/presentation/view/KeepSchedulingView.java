@@ -3,85 +3,120 @@ package agendamento.presentation.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import agendamento.factory.SearchCustomerFactory;
 import agendamento.presentation.controller.keepSchedulingController;
+import agendamento.presentation.model.Scheduling;
+import cliente.presentation.model.Customer;
+import cliente.presentation.store.CustomerStore;
+import servico.presentation.model.Service;
+import servico.presentation.store.ServiceStore;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Dimension;
-import shared.Action;
+import shared.CustomTable;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JFormattedTextField;
 
-public class KeepSchedulingView extends JFrame {
-
-	private JPanel contentPane;
-	private JLabel title;
-	private JButton btnScheduling;
-	private JButton btnCustomer;
-	private Action action;
-	private JLabel lblNewLabel;
-	private JTextField tfCustomer;
-	private JComboBox<String> cbService;
-	private JScrollPane scrollPane;
-	private JTable table;
-	private JButton btnAddService;
-	private JPanel panel;
-	private JPanel panel_1;
-	private JLabel lblServio;
-	private JPanel panel_2;
-	private JLabel lblNewLabel_1;
-	private JXDatePicker datePicker;
-	private JPanel panel_3;
-	private JLabel lblHora;
-	private JFormattedTextField tfHour;
-
-	public KeepSchedulingView(keepSchedulingController controller, Action action) {
-		this.action = action;
+public abstract class KeepSchedulingView extends JFrame {
+	protected JFrame frame;
+	protected JPanel contentPane;
+	protected JLabel title;
+	protected JButton btnScheduling;
+	protected JButton btnCustomer;
+	protected JLabel lblNewLabel;
+	protected JTextField tfCustomer;
+	protected JComboBox<String> cbService;
+	protected JScrollPane scrollPane;
+	protected CustomTable table;
+	protected JButton btnAddService;
+	protected JPanel panel;
+	protected JPanel panel_1;
+	protected JLabel lblServio;
+	protected JPanel panel_2;
+	protected JLabel lblNewLabel_1;
+	protected JXDatePicker datePicker;
+	protected JPanel panel_3;
+	protected JLabel lblHora;
+	protected JFormattedTextField tfHour;
+	protected keepSchedulingController controller;
+	
+	protected CustomerStore customerStore = CustomerStore.getInstance();
+	protected ServiceStore serviceStore = ServiceStore.getInstance();
+	
+	private List<Service> scheduledServices = new ArrayList<>();
+	
+	public KeepSchedulingView(keepSchedulingController controller) {
+		this.controller = controller;
+		this.frame = this;
 		initComponents();
 		setLocationRelativeTo(null);
-		changeUI();
-
-		controller.setUIitems(tfCustomer, btnCustomer, btnScheduling, cbService, tfHour, table, btnAddService, datePicker,
-				action);
+		addEvent();
+		actionButton();
+		controller.serchServices();
 	}
 
-	private void changeUI() {
-
-		switch (action) {
-		case NEW: {
-			this.title.setText("Novo Agendamento");
-			this.btnScheduling.setText("Salvar");
-		}
-			break;
-		case EDIT: {
-			this.title.setText("Alterar Agendamento");
-			this.btnScheduling.setText("Alterar");
-		}
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	private MaskFormatter maskFormat() {
+	protected MaskFormatter maskFormat() {
 		try {
 			return new MaskFormatter("##:##");
 		} catch (ParseException error) {
 			return null;
 		}
+	}
+	
+	private void addEvent() {
+		serviceStore.addListener(e -> {
+			if(e.getPropertyName().equals("getServicesFromSearch")) {
+				List<Service> services = serviceStore.getServices();
+				services.forEach(service -> cbService.addItem(service.getDescription()));
+			}
+		});
+	}
+	
+	private void actionButton() {
+		this.btnCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchCustomerFactory.searchCustomer();
+			}
+		});
+
+		this.btnAddService.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cbService.getSelectedIndex() != -1) {
+					List<Service> services = serviceStore.getServices();
+					int comboBoxIndex = cbService.getSelectedIndex();
+					Service service = services.get(comboBoxIndex);
+					scheduledServices.add(service);
+					table.addRow(new String [] {service.getDescription()});
+				}
+				
+			}
+		});
+
+		this.btnScheduling.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Customer customer = customerStore.getCustomer();
+				Date date = datePicker.getDate();
+				String hour = tfHour.getText();
+				Scheduling scheduling = new Scheduling(customer, scheduledServices, date, hour);
+				controller.insert(scheduling, frame);
+			}
+		});
 	}
 
 	private void initComponents() {
@@ -112,7 +147,7 @@ public class KeepSchedulingView extends JFrame {
 		this.scrollPane = new JScrollPane();
 		this.panel = new JPanel();
 		this.panel_1 = new JPanel();
-		this.lblServio = new JLabel("Servi\u00E7o");
+		this.lblServio = new JLabel("Serviços");
 		this.cbService = new JComboBox();
 		this.cbService.setPreferredSize(new Dimension(68, 26));
 		this.cbService.setMinimumSize(new Dimension(68, 26));
@@ -164,12 +199,12 @@ public class KeepSchedulingView extends JFrame {
 		tfHour = new JFormattedTextField(maskFormat());
 		GroupLayout gl_panel_3 = new GroupLayout(this.panel_3);
 		gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addComponent(this.lblHora, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE).addComponent(
-						tfHour, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE));
+				.addComponent(this.lblHora, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+				.addComponent(tfHour, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE));
 		gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup().addContainerGap().addComponent(this.lblHora)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(tfHour,
-								GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)));
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(tfHour, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)));
 		this.panel_3.setLayout(gl_panel_3);
 		GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
 		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
@@ -211,6 +246,7 @@ public class KeepSchedulingView extends JFrame {
 						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addGap(27)));
 		this.tfCustomer = new JTextField();
+		tfCustomer.setEditable(false);
 		this.tfCustomer.setColumns(10);
 
 		this.lblNewLabel = new JLabel("Cliente");
@@ -225,14 +261,8 @@ public class KeepSchedulingView extends JFrame {
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		this.panel.setLayout(gl_panel);
 		{
-			this.table = new JTable();
-			this.table.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Servi\u00E7os"
-				}
-			));
+			this.table = new CustomTable();
+			this.table.setModel(new String[] { "Serviços" });
 			this.scrollPane.setViewportView(this.table);
 		}
 		this.contentPane.setLayout(gl_contentPane);

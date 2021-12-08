@@ -26,10 +26,11 @@ public class ManageServiceController {
 	}
 
 	public void update() {
-		store.setSelectedTableRow(table.getSelectedRowCount());
-		
-		if (table.lineIsSelected())
+		if (table.lineIsSelected()) {
+			store.setSelectedTableRow(table.getSelectedRowCount());
 			ServiceFactory.updateServiceView();
+		}
+			
 		else
 			appProvider.showMessageUI(ServiceMsg.TABLE_WARNING.getMessage());
 	}

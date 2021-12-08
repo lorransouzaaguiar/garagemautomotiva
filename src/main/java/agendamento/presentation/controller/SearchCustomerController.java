@@ -17,14 +17,11 @@ import cliente.data.CustomerDAO;
 import cliente.presentation.model.Customer;
 import cliente.presentation.store.CustomerStore;
 import cliente.presentation.util.CustomerMsg;
+import shared.CustomTable;
 
 public class SearchCustomerController {
 	private JFrame frame;
-	private JTextField fieldName;
-	private JButton btnSearch;
-	private JButton btnOk;
-	private JTable table;
-	private DefaultTableModel tableModel;
+	private CustomTable table;
 	private AppProvider appProvider = AppProvider.getInstance();
 	private CustomerDAO dao;
 	private CustomerStore customerStore = CustomerStore.getInstance();
@@ -33,64 +30,35 @@ public class SearchCustomerController {
 		this.dao = dao;
 	}
 
-	public void setUIitems(JFrame frame, JTextField fieldName, JButton btnSearch, JButton btnOk, JTable table) {
+	public void setUiItem(JFrame frame, CustomTable table) {
 		this.frame = frame;
-		this.fieldName = fieldName;
-		this.btnSearch = btnSearch;
-		this.btnOk = btnOk;
 		this.table = table;
-		this.tableModel = (DefaultTableModel) table.getModel();
-
-		this.btnSearch.addActionListener(btnSearchListener());
-		this.btnOk.addActionListener(btnOkListener());
-		this.table.addMouseListener(tableListener());
 	}
 
-	private ActionListener btnSearchListener() {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String customerName = fieldName.getText();
-				if (!customerName.isEmpty()) {
-					List<Customer> customers = dao.searchByName(customerName);
-					if (customers != null) {
-						appProvider.showMessageUI(CustomerMsg.SEARCH_SUCCESS.getMessage());
-						customerStore.setCustomerList(customers);
-						setCustomerOnTable(customers);
-					} else
-						appProvider.showMessageUI(CustomerMsg.SEARCH_ERROR.getMessage());
-				}
-			}
-		};
+	public void searchCustomer(String customerName) {
+		
+		if (!customerName.isEmpty()) {
+			List<Customer> customers = dao.searchByName(customerName);
+			if (!customers.isEmpty()) {
+				customerStore.setCustomerList(customers);
+				setCustomerOnTable(customers);
+				appProvider.showMessageUI(CustomerMsg.SEARCH_SUCCESS.getMessage());
+			} else
+				appProvider.showMessageUI(CustomerMsg.SEARCH_ERROR.getMessage());
+		}
 	}
 
-	private ActionListener btnOkListener() {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				customerStore.dispatchCustomerToSheduling();
-				frame.dispose();
-			}
-		};
-	}
-
-	private MouseAdapter tableListener() {
-		return new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				customerStore.setSelectedTableRow(table.getSelectedRow());
-			}
-		};
+	public void close() {
+		customerStore.setSelectedTableRow(table.getSelectedRow());
+		customerStore.dispatchCustomerToSheduling();
+		frame.dispose();
 	}
 
 	private void setCustomerOnTable(List<Customer> customers) {
-		clearDataOnTable();
+		table.removeAllData();
 		customers.forEach(cus -> {
-			tableModel.addRow(new Object[] { cus.getName() });
+			table.addRow(new Object[] { cus.getName() });
 		});
-	}
-
-	private void clearDataOnTable() {
-		tableModel.getDataVector().removeAllElements();
-		tableModel.fireTableDataChanged();
 	}
 
 }

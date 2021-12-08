@@ -1,69 +1,69 @@
 package agendamento.presentation.controller;
 
+import java.util.Date;
 import java.util.List;
 import agendamento.data.SchedulingDAO;
 import agendamento.factory.SchedulingFactory;
 import agendamento.presentation.model.Scheduling;
 import agendamento.presentation.store.SchedulingStore;
+import agendamento.presentation.util.SchedulingMsg;
 import app.AppProvider;
-import shared.Action;
 import shared.CustomTable;
 
 public class ManageSchedulingController {
 	private AppProvider appProvider = AppProvider.getInstance();
 	private SchedulingDAO dao;
 	private SchedulingStore store = SchedulingStore.getInstance();
-	private CustomTable table;
-	
+
 	public ManageSchedulingController(SchedulingDAO dao) {
 		this.dao = dao;
 	}
-	
-	public void setUiItem(CustomTable table) {
-		this.table = table;
-	}
-	
-	public void update() {
+
+	public void update(CustomTable table) {
 		store.setSelectedTableRow(table.getSelectedRow());
-		
+
 		if (table.getSelectedRow() != -1)
-			SchedulingFactory.keepScheduling(Action.EDIT);
+			SchedulingFactory.updateScheduling();
 		else
-			appProvider.showMessageUI("Selecione uma linha da tabela");
+			appProvider.showMessageUI(SchedulingMsg.TABLE_WARNING.getMessage());
 	}
-	
-	public void delete() {
-		store.setSelectedTableRow(table.getSelectedRow());
-		
+
+	public void delete(CustomTable table) {
 		int selectedTableRow = table.getSelectedRow();
-		if (selectedTableRow != -1) {
+		
+		if (table.lineIsSelected()) {
+			store.setSelectedTableRow(selectedTableRow);
 			String id = store.getScheduling().getId();
-			
+
 			if (dao.delete(id)) {
 				store.removeScheduling();
 				table.removeRow(selectedTableRow);
-				appProvider.showMessageUI("Serviço deletado com sucesso!");
+				appProvider.showMessageUI(SchedulingMsg.DELETE_SUCCESS.getMessage());
 			} else
-				appProvider.showMessageUI("Falha ao deletar serviço!");
+				appProvider.showMessageUI(SchedulingMsg.DELETE_ERROR.getMessage());
 		} else
-			appProvider.showMessageUI("Selecione uma linha da tabela");
+			appProvider.showMessageUI(SchedulingMsg.TABLE_WARNING.getMessage());
 	}
-	
-	//search
-	public void search(String name) {
-		if (!name.isEmpty()) {
-			List<Scheduling> schedulings = dao.searchByName(name);
-			store.setServiceList(schedulings);
-			setDataOnTable(schedulings);
+
+	// search
+	public void search(CustomTable table, Date date) {
+		if (date != null) {
+			List<Scheduling> schedulings = dao.searchByDate(date);
+			if (!schedulings.isEmpty()) {
+				store.setSchedulingList(schedulings);
+				setDataOnTable(table, schedulings);
+				appProvider.showMessageUI(SchedulingMsg.SEARCH_SUCCESS.getMessage());
+			}else appProvider.showMessageUI(SchedulingMsg.SEARCH_EMPTY.getMessage());
 		} else
-			appProvider.showMessageUI("Insira o nome a ser pesquisado!");
+			appProvider.showMessageUI(SchedulingMsg.SEARCH_ERROR.getMessage());
 	}
-	
-	private void setDataOnTable(List<Scheduling> schedulings) {
-		schedulings.forEach(ser -> {
-			
+
+	public void setDataOnTable(CustomTable table, List<Scheduling> schedulings) {
+		table.removeAllData();
+		schedulings.forEach(sche -> {
+			table.addRow(new Object[] { sche.getCustomer().getName(), sche.getHour() });
 		});
 	}
-	//search
-	
+	// search
+
 }

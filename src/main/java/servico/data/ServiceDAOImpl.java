@@ -23,13 +23,14 @@ public class ServiceDAOImpl implements ServiceDAO{
 			stmt.setString(2, service.getDescription());
 			stmt.setDouble(3, service.getPrice());
 			stmt.execute();
-			return true;
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}finally {
 			MysqlConnection.closeConnection();
 		}
+		
+		return true;
 	}
 
 	@Override
@@ -42,13 +43,14 @@ public class ServiceDAOImpl implements ServiceDAO{
 			stmt.setString(1, service.getDescription());
 			stmt.setDouble(2, service.getPrice());
 			stmt.execute();
-			return true;
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}finally {
 			MysqlConnection.closeConnection();
 		}
+		
+		return true;
 	}
 
 	@Override
@@ -58,13 +60,14 @@ public class ServiceDAOImpl implements ServiceDAO{
 			Connection con = MysqlConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.execute();
-			return true;
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}finally {
 			MysqlConnection.closeConnection();
 		}
+		
+		return true;
 	}
 
 	@Override

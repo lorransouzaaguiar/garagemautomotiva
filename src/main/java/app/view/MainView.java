@@ -59,7 +59,8 @@ public class MainView extends JFrame {
 		this.btnCustomer.addActionListener(controller.customerListener());
 		this.btnScheduling.addActionListener(controller.schedulingListener());
 		this.btnService.addActionListener(controller.serviceListener());
-		
+		this.btnProduct.addActionListener(controller.productListener());
+		this.btnSell.addActionListener(controller.saleListener());
 	}
 	
 	private void initComponents() {

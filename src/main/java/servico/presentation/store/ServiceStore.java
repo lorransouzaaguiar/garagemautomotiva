@@ -13,7 +13,6 @@ public class ServiceStore extends Observable{
 	private List<Service> services;
 	private String idService = null;
 	private int selectedTableRow = -1;
-	private boolean state = false;
 	
 	private ServiceStore() {
 		this.services = new ArrayList<>();
@@ -35,26 +34,20 @@ public class ServiceStore extends Observable{
 		this.selectedTableRow = index;
 	}
 	
-	public void actionSetServiceOnFields() {
-		boolean oldValue = this.state;
-		boolean newValue = true;
-		this.support.firePropertyChange("getService", oldValue, newValue);
-		this.state = false;
+	public void dispatchServicesToScheduling(List<Service> services) {
+		setServiceList(services);
+		this.support.firePropertyChange("getServicesFromSearch", false, true);
 	}
 	
-	public void actionSetChangedService(Service service) {
+	public void dispatchChangedService(Service service) {
 		this.services.set(selectedTableRow, service);
-		String oldValue = this.idService;
-		String newValue = service.getId();
-		this.support.firePropertyChange("changedService", oldValue, newValue);
-		this.idService = null;
+		this.support.firePropertyChange("changedService", false, true);
 	}
 	
 	public Service getService() {
 		if(selectedTableRow != -1) {
-			Service cus = services.get(selectedTableRow);
-			return cus;
-			
+			Service serv = services.get(selectedTableRow);
+			return serv;
 		}
 		return null;
 	}

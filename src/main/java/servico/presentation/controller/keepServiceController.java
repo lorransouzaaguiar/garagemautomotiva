@@ -26,7 +26,7 @@ public class keepServiceController {
 	
 	public void update(Service service, JFrame frame) {
 		if(dao.update(service)) {
-			store.actionSetChangedService(service);
+			store.dispatchChangedService(service);
 			appProvider.showMessageUI(ServiceMsg.EDIT_SUCCESS.getMessage());
 			frame.dispose();
 		}

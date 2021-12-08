@@ -20,6 +20,7 @@ public class Scheduling {
 		this.customer = customer;
 		this.services = services;
 		this.date = date;
+		this.hour = hour;
 	}
 
 	public Scheduling(Customer customer, List<Service> services, Date date, String hour) {
@@ -28,6 +29,7 @@ public class Scheduling {
 		this.customer = customer;
 		this.services = services;
 		this.date = date;
+		this.hour = hour;
 	}
 
 	public String getId() {
@@ -49,7 +51,12 @@ public class Scheduling {
 	public String getHour() {
 		return hour;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Scheduling [id=" + id + ", customer=" + customer + ", services=" + services + ", date=" + date
+				+ ", hour=" + hour + "]";
+	}
 	
 	
 }
