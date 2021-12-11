@@ -1,19 +1,21 @@
 package servico.presentation.view;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import br.com.formSwing.FormSwing;
-import br.com.formSwing.components.FormField;
-import br.com.formSwing.validation.FormValidation;
-import servico.presentation.controller.keepServiceController;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
-import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+
+import servico.presentation.controller.keepServiceController;
+import shared.br.com.formSwing.FormSwing;
+import shared.br.com.formSwing.components.FormField;
+import shared.br.com.formSwing.validation.FormValidation;
 
 public class KeepServiceView extends JFrame {
 	protected JFrame frame;

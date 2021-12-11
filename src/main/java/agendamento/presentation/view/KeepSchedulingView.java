@@ -1,17 +1,7 @@
 package agendamento.presentation.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import agendamento.presentation.controller.keepSchedulingController;
-import agendamento.presentation.model.Scheduling;
-import cliente.presentation.model.Customer;
-import cliente.presentation.store.CustomerStore;
-import servico.presentation.model.Service;
-import servico.presentation.store.ServiceStore;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,20 +9,31 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import java.awt.Dimension;
-import shared.CustomTable;
-import shared.cliente.SearchCustomerFactory;
 
-import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import org.jdesktop.swingx.JXDatePicker;
-import javax.swing.JFormattedTextField;
+
+import agendamento.presentation.controller.keepSchedulingController;
+import agendamento.presentation.model.Scheduling;
+import cliente.presentation.model.Customer;
+import cliente.presentation.store.CustomerStore;
+import servico.presentation.model.Service;
+import servico.presentation.store.ServiceStore;
+import shared.CustomTable;
+import shared.cliente.SearchCustomerFactory;
 
 public abstract class KeepSchedulingView extends JFrame {
 	protected JFrame frame;

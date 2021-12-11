@@ -1,21 +1,22 @@
 package produto.presentation.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import br.com.formSwing.FormSwing;
-import br.com.formSwing.components.FormField;
-import br.com.formSwing.validation.FormValidation;
-import produto.presentation.controller.KeepProductController;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
-import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+
+import produto.presentation.controller.KeepProductController;
+import shared.br.com.formSwing.FormSwing;
+import shared.br.com.formSwing.components.FormField;
+import shared.br.com.formSwing.validation.FormValidation;
 
 public abstract class KeepProductView extends JFrame {
 	protected JFrame frame;

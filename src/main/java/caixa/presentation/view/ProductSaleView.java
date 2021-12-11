@@ -1,15 +1,22 @@
 package caixa.presentation.view;
 
-import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+
 import caixa.presentation.controller.ProductSaleController;
 import caixa.presentation.model.CartProduct;
 import caixa.presentation.model.SaleViewModel;
@@ -18,11 +25,6 @@ import cliente.presentation.store.CustomerStore;
 import produto.presentation.model.Product;
 import shared.CustomTable;
 import shared.cliente.SearchCustomerFactory;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ProductSaleView extends JPanel {
 	private JTextField tfProductDesc;
