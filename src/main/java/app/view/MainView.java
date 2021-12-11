@@ -165,7 +165,7 @@ public class MainView extends JFrame {
 		}
 		this.logo = new JLabel("");
 		logo.setHorizontalAlignment(SwingConstants.CENTER);
-		logo.setIcon(new ImageIcon(MainView.class.getResource("/img/logo-1.png")));
+		logo.setIcon(new ImageIcon(MainView.class.getResource("/shared/img/logo-1.png")));
 		GroupLayout gl_sidePanel = new GroupLayout(this.sidePanel);
 		gl_sidePanel.setHorizontalGroup(
 			gl_sidePanel.createParallelGroup(Alignment.LEADING)
