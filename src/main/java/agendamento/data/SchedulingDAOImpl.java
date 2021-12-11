@@ -113,4 +113,24 @@ public class SchedulingDAOImpl implements SchedulingDAO {
 		return schedulings;
 	}
 
+	@Override
+	public String count() {
+		String sql = "select count(id_agendamento) from agendamento";
+		String count = null;
+		try {
+			Connection con = MysqlConnection.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			count = rs.getString(1);
+		}catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}finally {
+			MysqlConnection.closeConnection();
+		}
+		
+		return count;
+	}
+
 }

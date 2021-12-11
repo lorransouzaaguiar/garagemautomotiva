@@ -123,5 +123,25 @@ public class CustomerDAOImpl implements CustomerDAO{
 		return customers;
 	}
 
+	@Override
+	public String count() {
+		String sql = "select count(id_cliente) from cliente";
+		String count = null;
+		try {
+			Connection con = MysqlConnection.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			count = rs.getString(1);
+		}catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}finally {
+			MysqlConnection.closeConnection();
+		}
+		
+		return count;
+	}
+
 
 }

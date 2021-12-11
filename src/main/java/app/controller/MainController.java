@@ -7,11 +7,12 @@ import javax.swing.JPanel;
 import agendamento.factory.SchedulingFactory;
 import agendamento.presentation.model.Scheduling;
 import agendamento.presentation.view.ManageSchedulingView;
-import app.view.DashboardView;
 import caixa.factory.ProductSaleFactory;
 import caixa.presentation.view.ProductSaleView;
 import cliente.presentation.controller.ManageCustomerController;
 import cliente.presentation.view.ManageCustomerView;
+import dashboard.factory.DashboardFactory;
+import dashboard.view.DashboardView;
 import produto.factory.ProductFactory;
 import produto.presentation.view.ManageProductView;
 import servico.fatory.ServiceFactory;
@@ -35,7 +36,7 @@ public class MainController {
 		this.mainPanel = mainPanel;
 		this.pageTitle = pageTitle;
 		
-		this.dashboardView = new DashboardView();
+		this.dashboardView = DashboardFactory.dashboardView();
 		this.manageCustomer = CustomerFactory.manageCustomer();
 		this.manageScheduling = SchedulingFactory.manageService();
 		this.manageService = ServiceFactory.manageService();

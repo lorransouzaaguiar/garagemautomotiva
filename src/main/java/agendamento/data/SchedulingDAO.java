@@ -9,6 +9,7 @@ public interface SchedulingDAO {
 	public boolean insert(Scheduling scheduling);
 	public boolean update(Scheduling scheduling);
 	public boolean delete(String id);
+	public String count();
 	public List<Scheduling> searchByDate(Date date);
 	public List<Scheduling> searchAll();
 }

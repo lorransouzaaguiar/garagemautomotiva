@@ -1,6 +1,4 @@
 package agendamento.presentation.view;
-
-
 import agendamento.presentation.controller.keepSchedulingController;
 import agendamento.presentation.model.Scheduling;
 import agendamento.presentation.store.SchedulingStore;

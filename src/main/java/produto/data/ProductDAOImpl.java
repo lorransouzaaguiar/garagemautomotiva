@@ -3,6 +3,7 @@ package produto.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +95,26 @@ public class ProductDAOImpl implements ProductDAO{
 		}
 		
 		return products;
+	}
+
+	@Override
+	public String count() {
+		String sql = "select count(id_produto) from produto";
+		String count = null;
+		try {
+			Connection con = MysqlConnection.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			count = rs.getString(1);
+		}catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}finally {
+			MysqlConnection.closeConnection();
+		}
+		
+		return count;
 	}
 
 }
